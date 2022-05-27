@@ -71,3 +71,8 @@ def hu_to_gray(volume):
     volume_rerange = np.stack([volume_rerange, volume_rerange, volume_rerange], axis=-1)
 
     return volume_rerange.astype(np.uint8)
+
+def overlay(gray_volume, mask_volume, mask_color, alpha=0.3):
+    mask_filter = np.greater(mask_volume, 0)
+    mask_filter = np.stack([mask_filter, mask_filter, mask_filter], axis=-1)
+    return np.where(mask_filter, ((1-alpha)*gray_volume + alpha*mask_color).astype(np.uint8), volume_gray)
